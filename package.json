@@ -2,11 +2,11 @@
   "name": "node-hw2",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/app.js",
   "scripts": {
     "build": "tsc",
-    "start": "node index.ts",
-    "dev": "nodemon -x ts-node index.ts",
+    "start": "node src/app.ts",
+    "dev": "nodemon -x ts-node src/app.ts",
     "lint": "eslint . --ext .ts"
   },
   "husky": {
