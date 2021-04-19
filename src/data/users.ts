@@ -1,6 +1,6 @@
-import { User } from '../model/user';
+import User from '../model/user';
 
-export const users: User[] = [
+export const users: any = [
     {
         id: '1',
         login: 'jack',
