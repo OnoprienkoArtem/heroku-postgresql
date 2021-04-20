@@ -4,15 +4,21 @@ import { Request, Response } from 'express';
 import { getAutoSuggestUsers, getUserById, createUser, updateUserById, removeUserById } from '../utils/functions';
 import { schema } from '../validation/validationSchema';
 import { validateSchema } from '../validation/validator';
+import User from '../model/user';
 
 const router = express.Router();
 
-router.get('/', (req: Request, res: Response) => {
-    try {
-        res.send(getAutoSuggestUsers(req.query.login, Number(req.query.limit)));
-    } catch (error) {
-        res.status(404).send(error);
-    }
+router.get('/', async (req: Request, res: Response) => {
+
+    const users = await User.findAll();
+    res.status(200).json(users);
+    console.log('user => ', users)
+
+    // try {
+    //     res.send(getAutoSuggestUsers(req.query.login, Number(req.query.limit)));
+    // } catch (error) {
+    //     res.status(404).send(error);
+    // }
 });
 
 router.get('/:id', (req: Request, res) => {

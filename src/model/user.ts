@@ -1,9 +1,11 @@
 import {Sequelize, DataTypes} from 'sequelize';
-import v4 from 'uuidv4';
+import sequelize from '../utils/database';
 
-export default (sequelize: Sequelize) => sequelize.define('User', {
+const user = sequelize.define('User', {
     id: {
-        type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true,
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
     },
     login: DataTypes.STRING,
     password: DataTypes.STRING,
@@ -13,5 +15,5 @@ export default (sequelize: Sequelize) => sequelize.define('User', {
     timestamps: false,
 });
 
-
+export default user;
 
