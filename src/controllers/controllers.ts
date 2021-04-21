@@ -3,8 +3,8 @@ import User from '../model/user';
 
 export async function getAutoSuggestUsers(req: Request, res: Response): Promise<void> {
     try {
-        const defaultLimit: number = 2;
-        let filteredUsers: any = await User.findAll()
+        const defaultLimit: number = 2
+        let filteredUsers: any = await User.findAll();
 
         if (req.query.login) {
             filteredUsers = filteredUsers.filter((user: any) => user.login.includes(req.query.login));
