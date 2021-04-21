@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import User from '../model/user';
 
-export async function getAutoSuggestUsers(req: Request, res: Response) {
+export async function getAutoSuggestUsers(req: Request, res: Response): Promise<void> {
     try {
         const defaultLimit: number = 2;
-        let filteredUsers: any = await User.findAll();
+        let filteredUsers: any = await User.findAll()
 
         if (req.query.login) {
             filteredUsers = filteredUsers.filter((user: any) => user.login.includes(req.query.login));
@@ -16,7 +16,7 @@ export async function getAutoSuggestUsers(req: Request, res: Response) {
     }
 }
 
-export async function getUserById(req: Request, res: Response) {
+export async function getUserById(req: Request, res: Response): Promise<void> {
     try {
         await handleIdError(req.params.id);
 
@@ -26,7 +26,7 @@ export async function getUserById(req: Request, res: Response) {
     }
 }
 
-export async function createUser(req: Request, res: Response) {
+export async function createUser(req: Request, res: Response): Promise<void> {
     try {
         const { login, password, age } = req.query;
         await User.create({
@@ -42,7 +42,7 @@ export async function createUser(req: Request, res: Response) {
     }
 }
 
-export async function updateUserById(req: Request, res: Response) {
+export async function updateUserById(req: Request, res: Response): Promise<void> {
     try {
         await handleIdError(req.params.id);
 
@@ -61,7 +61,7 @@ export async function updateUserById(req: Request, res: Response) {
     }
 }
 
-export async function removeUserById(req: Request, res: Response) {
+export async function removeUserById(req: Request, res: Response): Promise<void> {
     try {
         await handleIdError(req.params.id);
 
@@ -82,7 +82,7 @@ export async function removeUserById(req: Request, res: Response) {
     }
 }
 
-async function handleIdError(id: string) {
+async function handleIdError(id: string): Promise<void> {
     if (!await User.findByPk(id)) {
         throw new Error();
     }
