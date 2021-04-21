@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAutoSuggestUsers, getUserById, createUser, updateUserById, removeUserById } from '../controllers/functions';
+import { getAutoSuggestUsers, getUserById, createUser, updateUserById, removeUserById } from '../controllers/controllers';
 import { schema } from '../validation/validationSchema';
 import { validateSchema } from '../validation/validator';
 
