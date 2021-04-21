@@ -9,8 +9,10 @@
     "dev": "nodemon -x ts-node src/app.ts",
     "lint": "eslint . --ext .ts",
     "seed": "node_modules/.bin/sequelize db:seed:all\n",
+    "undoseed": "node_modules/.bin/sequelize db:seed:undo:all",
     "migration": "node_modules/.bin/sequelize model:generate --name User --attributes login:string,password:string,age:string,isDeleted:boolean",
-    "migrate": "node_modules/.bin/sequelize db:migrate"
+    "migrate": "node_modules/.bin/sequelize db:migrate",
+    "undomigrate": "node_modules/.bin/sequelize db:migrate:undo:all"
   },
   "husky": {
     "hooks": {
