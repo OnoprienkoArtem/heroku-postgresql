@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
+
 import User from '../model/user';
+import { Op } from "sequelize";
+
 
 export async function getAutoSuggestUsers(req: Request, res: Response): Promise<void> {
     try {
@@ -7,10 +10,17 @@ export async function getAutoSuggestUsers(req: Request, res: Response): Promise<
         let filteredUsers: any = await User.findAll();
 
         if (req.query.login) {
-            filteredUsers = filteredUsers.filter((user: any) => user.login.includes(req.query.login));
+            filteredUsers = await User.findAll({
+                limit: Number(req.query.limit) || defaultLimit,
+                where: {
+                    login: {
+                        [Op.like]: `%${req.query.login}%`
+                    }
+                }
+            });
         }
 
-        res.send(await filteredUsers.slice(0, (Number(req.query.limit) || defaultLimit)));
+        res.send(await filteredUsers);
     } catch (error) {
         res.status(404).send(error);
     }
