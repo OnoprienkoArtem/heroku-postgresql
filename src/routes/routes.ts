@@ -3,7 +3,6 @@ import { getAutoSuggestUsers, getUserById, createUser, updateUserById, removeUse
 import { schema } from '../validation/validationSchema';
 import { validateSchema } from '../validation/validator';
 
-
 const router = express.Router();
 
 router.get('/', getAutoSuggestUsers);
