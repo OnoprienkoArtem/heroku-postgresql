@@ -1,6 +1,6 @@
-import {Dialect, Sequelize} from 'sequelize';
+import { Sequelize } from 'sequelize';
 import config from '../../config/config';
 
-const sequelize = new Sequelize({...config, dialect: config.dialect as Dialect} );
+const sequelize = new Sequelize({ ...config, dialect: config.dialect });
 
 export default sequelize;
