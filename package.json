@@ -5,12 +5,10 @@
   "main": "dist/app.js",
   "scripts": {
     "build": "tsc",
-    "start": "node src/app.ts",
     "dev": "nodemon -x ts-node src/app.ts",
     "lint": "eslint . --ext .ts",
     "seed": "node_modules/.bin/sequelize db:seed:all\n",
     "undoseed": "node_modules/.bin/sequelize db:seed:undo:all",
-    "migration": "node_modules/.bin/sequelize model:generate --name User --attributes login:string,password:string,age:string,isDeleted:boolean",
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "undomigrate": "node_modules/.bin/sequelize db:migrate:undo:all"
   },
@@ -25,6 +23,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "joi": "^17.4.0",
+    "morgan": "^1.10.0",
     "pg": "^8.6.0",
     "sequelize": "^6.6.2",
     "uuid": "^8.3.2",
@@ -32,6 +31,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
+    "@types/morgan": "^1.9.2",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
     "@typescript-eslint/parser": "^4.20.0",
