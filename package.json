@@ -5,6 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "build": "tsc",
+    "start": "ts-node src/app.ts",
     "dev": "nodemon -x ts-node src/app.ts",
     "lint": "eslint . --ext .ts",
     "seed": "node_modules/.bin/sequelize db:seed:all\n",

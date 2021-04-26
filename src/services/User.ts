@@ -1,8 +1,11 @@
 import User from '../model/user';
 import { Op } from 'sequelize';
+import QueryString from "qs";
+
+type QueryStringType = string | string[] | QueryString.ParsedQs | QueryString.ParsedQs[] | undefined;
 
 export default class UserService {
-    public async getUsers<T>(login: T, limit: T): Promise<void> {
+    public async getUsers(login: QueryStringType, limit: QueryStringType): Promise<void> {
         const defaultLimit: number = 2;
         let filteredUsers: any = await User.findAll({
             limit: Number(limit) || defaultLimit
