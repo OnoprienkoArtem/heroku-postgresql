@@ -1,18 +1,6 @@
-import { Sequelize } from 'sequelize';
+import { Options, Sequelize } from 'sequelize';
+import config from '../../config/config.json';
 
-const DB_NAME = '';
-const USER_NAME = '';
-const PASSWORD = '';
-
-const sequelize = new Sequelize(DB_NAME, USER_NAME, PASSWORD, {
-    host: '',
-    dialect: 'postgres',
-    dialectOptions: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false
-        }
-    }
-});
+const sequelize = new Sequelize(config.development as Options);
 
 export default sequelize;

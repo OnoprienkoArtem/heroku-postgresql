@@ -1,10 +1,12 @@
 import express from 'express';
 import routes from './routes/routes';
 import sequelize from './utils/database';
+import morgan from 'morgan';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(morgan('tiny'));
 app.use('/users', routes);
 
 sequelize.authenticate()
