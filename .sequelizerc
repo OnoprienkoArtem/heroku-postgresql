@@ -1,8 +1,0 @@
-const path = require('path');
-
-module.exports = {
-    'config': path.resolve('config', 'config.ts'),
-    'models-path': path.resolve('src/model', 'user.ts'),
-    'seeders-path': path.resolve('seeders', '20210419202405-seed-user'),
-    'migrations-path': path.resolve('migrations', '20210420182926-create-user')
-}

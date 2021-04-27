@@ -1,6 +1,6 @@
 import User from '../model/user';
 import { Op } from 'sequelize';
-import QueryString from "qs";
+import QueryString from 'qs';
 
 type QueryStringType = string | string[] | QueryString.ParsedQs | QueryString.ParsedQs[] | undefined;
 
