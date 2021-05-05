@@ -1,6 +1,7 @@
 import User from '../model/user';
 import { Op } from 'sequelize';
 import QueryString from 'qs';
+import {UserType} from "../types/user";
 
 type QueryStringType = string | string[] | QueryString.ParsedQs | QueryString.ParsedQs[] | undefined;
 
@@ -29,7 +30,7 @@ export default class UserService {
     }
 
     public async createUser(queryParams: any): Promise<any> {
-        const { login, password, age } = queryParams;
+        const { login, password, age }: UserType = queryParams;
         await User.create({
             login,
             password,
@@ -41,7 +42,7 @@ export default class UserService {
     }
 
     public async updateUserById(queryParams: any, id: string): Promise<any> {
-        const { login, password, age } = queryParams;
+        const { login, password, age }: UserType = queryParams;
         await User.update(
             { login, password, age },
             {
