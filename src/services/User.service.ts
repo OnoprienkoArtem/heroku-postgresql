@@ -1,7 +1,9 @@
-import User from '../model/user';
 import { Op } from 'sequelize';
 import QueryString from 'qs';
-import {UserType} from "../types/user";
+
+import { UserType } from '../types/user';
+import User from '../model/user';
+
 
 type QueryStringType = string | string[] | QueryString.ParsedQs | QueryString.ParsedQs[] | undefined;
 
@@ -31,14 +33,12 @@ export default class UserService {
 
     public async createUser(queryParams: any): Promise<any> {
         const { login, password, age }: UserType = queryParams;
-        await User.create({
+        return await User.create({
             login,
             password,
             age,
             isDeleted: false
         });
-
-        return await User.findAll();
     }
 
     public async updateUserById(queryParams: any, id: string): Promise<any> {

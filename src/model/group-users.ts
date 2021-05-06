@@ -1,7 +1,9 @@
-import sequelize from "../utils/database";
-import {DataTypes} from "sequelize";
+import sequelize from '../utils/database';
+import { DataTypes } from 'sequelize';
+
 import User from '../model/user';
-import Group from "../model/group";
+import Group from '../model/group';
+
 
 const groupUsers = sequelize.define('GroupUsers',
     {
@@ -10,7 +12,7 @@ const groupUsers = sequelize.define('GroupUsers',
             primaryKey: true,
             autoIncrement: true
         },
-        userId: {
+        userIds: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
@@ -37,8 +39,7 @@ User.belongsToMany(Group, {
         model: groupUsers,
         unique: false
     },
-    foreignKey:
-        'id'
+    foreignKey: 'id'
 });
 
 

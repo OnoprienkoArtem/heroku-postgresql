@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
-import UserService from '../services/User';
+
+import UserService from '../services/User.service';
+
 
 export default class UserController {
     constructor(public readonly userService: UserService) {

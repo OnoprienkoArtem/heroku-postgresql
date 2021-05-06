@@ -1,24 +1,12 @@
-import express, {Request, Response} from 'express';
-import GroupUsers from "../model/group-users";
-import sequelize from "../utils/database";
+import express from 'express';
+
+import GroupUsersController from '../controllers/GroupUsersController';
+import GroupUsersService from '../services/GroupUsers.service';
+
 
 const groupUsersRouter = express.Router();
+const groupUsersController = new GroupUsersController(new GroupUsersService());
 
-
-groupUsersRouter.post('/', async (req: Request, res: Response) => {
-
-    try {
-        await sequelize.transaction(async (t) => {
-            await GroupUsers.create({
-                userId: req.body.userId,
-                groupId: req.body.groupId,
-            }, { transaction: t });
-
-            res.send(await GroupUsers.findAll());
-        });
-    } catch (error) {
-        res.status(404).send(error);
-    }
-});
+groupUsersRouter.post('/', groupUsersController.addUsersToGroup);
 
 export default groupUsersRouter;

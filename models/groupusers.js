@@ -1,4 +1,6 @@
 'use strict';
+import {DataTypes} from "sequelize";
+
 const {
   Model
 } = require('sequelize');
@@ -15,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   GroupUsers.init({
     id: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER,
+    userIds: DataTypes.INTEGER,
     groupId: DataTypes.STRING
   }, {
     sequelize,
