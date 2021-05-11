@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Group from '../model/group';
 import GroupUsers from '../model/group-users';
-
+import User from '../model/user';
 
 export default class GroupService {
     public async getGroupById(id: string) {
@@ -10,7 +10,9 @@ export default class GroupService {
     }
 
     public async getAllGroups() {
-        return await Group.findAll();
+        return await Group.findAll({
+            include: User
+        });
     }
 
     public async createNewGroup(name: string, permissions: Array<string>) {

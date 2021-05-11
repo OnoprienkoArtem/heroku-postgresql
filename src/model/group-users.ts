@@ -38,7 +38,8 @@ User.belongsToMany(Group, {
         model: groupUsers,
         unique: false
     },
-    foreignKey: 'id'
+    foreignKey: 'userId',
+    otherKey: 'groupId'
 });
 
 
@@ -47,7 +48,8 @@ Group.belongsToMany(User, {
         model: groupUsers,
         unique: false
     },
-    foreignKey: 'id'
+    foreignKey: 'groupId',
+    otherKey: 'userId'
 });
 
 export default groupUsers;

@@ -3,6 +3,7 @@ import QueryString from 'qs';
 
 import { UserType } from '../types/user';
 import User from '../model/user';
+import Group from '../model/group';
 
 type QueryStringType = string | string[] | QueryString.ParsedQs | QueryString.ParsedQs[] | undefined;
 
@@ -16,7 +17,8 @@ export default class UserService {
                 login: {
                     [Op.like]: `%${login}%`
                 }
-            }
+            },
+            include: Group
         });
     }
 
