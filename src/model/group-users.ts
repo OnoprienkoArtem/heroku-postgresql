@@ -34,7 +34,6 @@ const groupUsers = sequelize.define('GroupUsers',
 );
 
 User.belongsToMany(Group, {
-    as: 'Groups',
     through: {
         model: groupUsers,
         unique: false
@@ -44,7 +43,6 @@ User.belongsToMany(Group, {
 
 
 Group.belongsToMany(User, {
-    as: 'Users',
     through: {
         model: groupUsers,
         unique: false
