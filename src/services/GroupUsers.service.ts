@@ -3,13 +3,13 @@ import GroupUsers from '../model/group-users';
 
 export default class GroupUsersService {
     public async addUsersToGroup(userIds: Array<number>, groupId: string) {
-        await sequelize.transaction(async (t) => {
-            await GroupUsers.create({
-                userIds,
+        return await sequelize.transaction(async (t) => {
+            await Promise.all(userIds.map(userId => GroupUsers.create({
+                userId,
                 groupId
-            }, { transaction: t });
+            }, { transaction: t })));
 
-            return await GroupUsers.findAll();
+            return await GroupUsers.findAll({ transaction: t });
         });
     }
 }

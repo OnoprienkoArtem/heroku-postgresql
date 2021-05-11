@@ -10,7 +10,6 @@ export default class GroupUsersController {
         try {
             res
                 .status(201)
-                .json({ message: 'Group of users added to db successfully.' })
                 .send(await this.groupUsersService.addUsersToGroup(req.body.userIds, req.body.groupId));
         } catch (error) {
             res.status(404).send(error);

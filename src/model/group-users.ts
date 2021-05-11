@@ -12,7 +12,7 @@ const groupUsers = sequelize.define('GroupUsers',
             primaryKey: true,
             autoIncrement: true
         },
-        userIds: {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {

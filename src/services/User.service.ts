@@ -4,27 +4,20 @@ import QueryString from 'qs';
 import { UserType } from '../types/user';
 import User from '../model/user';
 
-
 type QueryStringType = string | string[] | QueryString.ParsedQs | QueryString.ParsedQs[] | undefined;
 
 export default class UserService {
-    public async getUsers(login: QueryStringType, limit: QueryStringType): Promise<void> {
+    public async getUsers(login: QueryStringType = '', limit: QueryStringType): Promise<any> {
         const defaultLimit: number = 2;
-        let filteredUsers: any = await User.findAll({
-            limit: Number(limit) || defaultLimit
-        });
 
-        if (login) {
-            filteredUsers = await User.findAll({
-                where: {
-                    login: {
-                        [Op.like]: `%${login}%`
-                    }
+        return await User.findAll({
+            limit: Number(limit) || defaultLimit,
+            where: {
+                login: {
+                    [Op.like]: `%${login}%`
                 }
-            });
-        }
-
-        return filteredUsers;
+            }
+        });
     }
 
     public async getUserById(id: string): Promise<any> {
