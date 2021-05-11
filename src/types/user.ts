@@ -1,4 +1,4 @@
-export interface UserInterface {
+export type UserType = {
     id: number;
     login: string;
     password: string;

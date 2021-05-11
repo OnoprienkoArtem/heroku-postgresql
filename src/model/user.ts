@@ -30,4 +30,3 @@ const user = sequelize.define('User',
 );
 
 export default user;
-

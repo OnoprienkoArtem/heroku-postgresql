@@ -1,8 +1,11 @@
 import express from 'express';
-import UserController from '../controllers/UserController';
+
 import { schema } from '../validation/validationSchema';
 import { validateSchema } from '../validation/validator';
-import UserService from '../services/User';
+
+import UserController from '../controllers/UserController';
+import UserService from '../services/User.service';
+
 
 const router = express.Router();
 const userController = new UserController(new UserService());
