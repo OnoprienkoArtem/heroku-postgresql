@@ -2,6 +2,8 @@ import { Op } from 'sequelize';
 import QueryString from 'qs';
 
 import { UserType } from '../types/user';
+import { ErrorResponse } from '../utils/hendleError/hendleError';
+
 import User from '../model/user';
 import Group from '../model/group';
 
@@ -61,9 +63,13 @@ export default class UserService {
         return User.findByPk(id);
     }
 
-    public async handleIdError(id: string): Promise<any> {
+    public async handleIdError(id: string, message: string, status: number): Promise<any> {
+        const error = new Error(message) as ErrorResponse;
+        error.status = status;
+
         if (!await User.findByPk(id)) {
-            throw new Error();
+
+            throw error;
         }
     }
 }
