@@ -1,17 +1,14 @@
-import {Response} from "express";
+import httpStatusCodes from './httpStatusCode';
+import BaseError from './baseError';
 
-export interface ErrorResponse extends Error{
-    status: number;
-    message: string;
+
+export default class Api404Error extends BaseError {
+    constructor (
+        errorMessage: string,
+        statusCode = httpStatusCodes.NOT_FOUND,
+        description = 'Not found.',
+        isOperational = true
+    ) {
+        super(errorMessage, statusCode, isOperational, description)
+    }
 }
-
-export function errorHandler(error: ErrorResponse, res: Response): Response {
-    console.log(error)
-    return res.status(error.status).json({
-        success: false,
-        message: error.message ? error.message : error,
-    });
-}
-
-
-
