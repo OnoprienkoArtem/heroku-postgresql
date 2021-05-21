@@ -1,14 +1,14 @@
-import httpStatusCodes from './httpStatusCode';
 import BaseError from './baseError';
+import { HttpStatusCode } from './httpStatusCode';
 
 
 export default class Api404Error extends BaseError {
-    constructor (
+    constructor(
         errorMessage: string,
-        statusCode = httpStatusCodes.NOT_FOUND,
+        statusCode = HttpStatusCode.NOT_FOUND,
         description = 'Not found.',
         isOperational = true
     ) {
-        super(errorMessage, statusCode, isOperational, description)
+        super(errorMessage, statusCode, isOperational, description);
     }
 }

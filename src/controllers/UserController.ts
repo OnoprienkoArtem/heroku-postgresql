@@ -2,7 +2,8 @@ import { Request, Response } from 'express';
 
 import UserService from '../services/User.service';
 import Api404Error from '../utils/hendleError/hendleError';
-import {UserType} from '../types/user';
+import { UserType } from '../types/user';
+import { logError } from '../utils/hendleError/helpers';
 
 
 export default class UserController {
@@ -14,12 +15,12 @@ export default class UserController {
             const users: Array<UserType> = await this.userService.getUsers(req.query.login, req.query.limit);
 
             if (users.length === 0) {
-                throw new Api404Error(`Users not found.`);
+                throw new Api404Error('Users not found.');
             }
 
-            res.send(await this.userService.getUsers(req.query.login, req.query.limit));
+            res.send(users);
         } catch (error) {
-            next(error);
+            return next(error);
         }
     }
 
@@ -29,7 +30,7 @@ export default class UserController {
 
             res.json(await this.userService.getUserById(req.params.id as unknown as number));
         } catch (error) {
-            next(error);
+            return next(error);
         }
     }
 
@@ -38,7 +39,7 @@ export default class UserController {
             const user: UserType = await this.userService.createUser(req.query);
             res.status(201).send(await this.userService.createUser(user));
         } catch (error) {
-            console.log(error)
+            logError(error);
         }
     }
 
@@ -48,7 +49,7 @@ export default class UserController {
 
             res.send(await this.userService.updateUserById(req.query, req.params.id));
         } catch (error) {
-            next(error);
+            return next(error);
         }
     }
 
@@ -56,13 +57,15 @@ export default class UserController {
         try {
             await this.handleErrorNotFoundByUserId(req.params.id as unknown as number);
 
-            res.send(await this.userService.removeUserById(req.params.id));
+            res
+                .json({ message: 'User has been deleted.' })
+                .send(await this.userService.removeUserById(req.params.id));
         } catch (error) {
-            next(error);
+            return next(error);
         }
     }
 
-    public handleErrorNotFoundByUserId = async (id: number): Promise<void> => {
+    private handleErrorNotFoundByUserId = async (id: number): Promise<void> => {
         const user: UserType = await this.userService.getUserById(id);
 
         if (user === null) {

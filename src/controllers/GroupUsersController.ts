@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import GroupUsersService from '../services/GroupUsers.service';
+import { logError } from '../utils/hendleError/helpers';
 
 
 export default class GroupUsersController {
@@ -12,7 +13,7 @@ export default class GroupUsersController {
                 .status(201)
                 .send(await this.groupUsersService.addUsersToGroup(req.body.userIds, req.body.groupId));
         } catch (error) {
-            res.status(404).send(error);
+            logError(error);
         }
     }
 }

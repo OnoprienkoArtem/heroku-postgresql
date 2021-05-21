@@ -2,7 +2,6 @@ import { Op } from 'sequelize';
 import QueryString from 'qs';
 
 import { UserType } from '../types/user';
-// import { ErrorResponse } from '../utils/hendleError/hendleError';
 
 import User from '../model/user';
 import Group from '../model/group';
