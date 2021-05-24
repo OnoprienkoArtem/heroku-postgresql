@@ -1,52 +1,73 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 import UserService from '../services/User.service';
+import Api404Error from '../utils/handleError/handleError';
+import { UserType } from '../types/user';
+import { logError } from '../utils/handleError/helpers';
 
 
 export default class UserController {
     constructor(public readonly userService: UserService) {
     }
 
-    public getAutoSuggestUsers = async (req: Request, res: Response): Promise<void> => {
+    public getAutoSuggestUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            res.send(await this.userService.getUsers(req.query.login, req.query.limit));
+            const users: Array<UserType> = await this.userService.getUsers(req.query.login, req.query.limit);
+
+            if (users.length === 0) {
+                throw new Api404Error('Users not found.');
+            }
+
+            res.send(users);
         } catch (error) {
-            res.status(404).send(error);
+            return next(error);
         }
     }
 
-    public getUserById = async (req: Request, res: Response): Promise<void> => {
+    public getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            await this.userService.handleIdError(req.params.id);
-            res.json(await this.userService.getUserById(req.params.id));
+            await this.handleErrorNotFoundByUserId(req.params.id as unknown as number);
+
+            res.json(await this.userService.getUserById(req.params.id as unknown as number));
         } catch (error) {
-            res.status(404).json({ message: 'id not found' });
+            return next(error);
         }
     }
 
     public createUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            res.send(await this.userService.createUser(req.query));
+            res.status(201).send(await this.userService.createUser(req.query));
         } catch (error) {
-            res.status(404).send(error);
+            logError(error);
         }
     }
 
-    public updateUserById = async (req: Request, res: Response): Promise<void> => {
+    public updateUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            await this.userService.handleIdError(req.params.id);
+            await this.handleErrorNotFoundByUserId(req.params.id as unknown as number);
+
             res.send(await this.userService.updateUserById(req.query, req.params.id));
         } catch (error) {
-            res.status(404).json({ message: 'id not found' });
+            return next(error);
         }
     }
 
-    public removeUserById = async (req: Request, res: Response): Promise<void> => {
+    public removeUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            await this.userService.handleIdError(req.params.id);
-            res.send(await this.userService.removeUserById(req.params.id));
+            await this.handleErrorNotFoundByUserId(req.params.id as unknown as number);
+
+            await this.userService.removeUserById(req.params.id);
+            res.send({ message: 'User has been deleted.' });
         } catch (error) {
-            res.status(404).json({ message: 'id not found' });
+            return next(error);
+        }
+    }
+
+    private handleErrorNotFoundByUserId = async (id: number): Promise<void> => {
+        const user: UserType = await this.userService.getUserById(id);
+
+        if (user === null) {
+            throw new Api404Error(`User with id: ${id} not found.`);
         }
     }
 }

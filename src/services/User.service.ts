@@ -2,6 +2,7 @@ import { Op } from 'sequelize';
 import QueryString from 'qs';
 
 import { UserType } from '../types/user';
+
 import User from '../model/user';
 import Group from '../model/group';
 
@@ -22,7 +23,7 @@ export default class UserService {
         });
     }
 
-    public async getUserById(id: string): Promise<any> {
+    public async getUserById(id: number): Promise<any> {
         return await User.findByPk(id);
     }
 
@@ -59,11 +60,5 @@ export default class UserService {
         );
 
         return User.findByPk(id);
-    }
-
-    public async handleIdError(id: string): Promise<any> {
-        if (!await User.findByPk(id)) {
-            throw new Error();
-        }
     }
 }

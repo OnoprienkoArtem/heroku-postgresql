@@ -1,3 +1,5 @@
+import { NextFunction, Request, Response } from 'express';
+
 function errorResponse(schemaErrors: any) {
     const errors = schemaErrors.map((error: any) => {
         const { path, message } = error;
@@ -11,7 +13,7 @@ function errorResponse(schemaErrors: any) {
 }
 
 export function validateSchema(schema: any) {
-    return (req: any, res: any, next: any) => {
+    return (req: Request, res: Response, next: NextFunction) => {
         const { error } = schema.validate(req.query, {
             abortEarly: false,
             allowUnknown: false
