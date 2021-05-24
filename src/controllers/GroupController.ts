@@ -1,14 +1,14 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import GroupService from '../services/Group.service';
-import Api404Error from '../utils/hendleError/hendleError';
-import { logError } from '../utils/hendleError/helpers';
+import Api404Error from '../utils/handleError/handleError';
+import { logError } from '../utils/handleError/helpers';
 
 
 export default class GroupController {
     constructor(public readonly groupService: GroupService) {}
 
-    public getGroupById = async (req: Request, res: Response, next: (arg: any) => void): Promise<void> => {
+    public getGroupById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             await this.handleErrorNotFoundByGroupId(req.params.id);
 
@@ -18,12 +18,12 @@ export default class GroupController {
         }
     }
 
-    public getAllGroups = async (req: Request, res: Response, next: (arg: any) => void): Promise<void> => {
+    public getAllGroups = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const groups = await this.groupService.getAllGroups();
 
             if (groups.length === 0) {
-                throw new Api404Error('Users not found.');
+                throw new Api404Error('Groups not found.');
             }
 
             res.send(groups);
@@ -40,7 +40,7 @@ export default class GroupController {
         }
     }
 
-    public updateGroupById = async (req: Request, res: Response, next: (arg: any) => void): Promise<void> => {
+    public updateGroupById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             await this.handleErrorNotFoundByGroupId(req.params.id);
 
@@ -50,7 +50,7 @@ export default class GroupController {
         }
     }
 
-    public removeGroupById = async (req: Request, res: Response, next: (arg: any) => void): Promise<void> => {
+    public removeGroupById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             await this.handleErrorNotFoundByGroupId(req.params.id);
 

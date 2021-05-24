@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import GroupUsersService from '../services/GroupUsers.service';
-import { logError } from '../utils/hendleError/helpers';
+import { logError } from '../utils/handleError/helpers';
 
 
 export default class GroupUsersController {

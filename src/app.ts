@@ -5,10 +5,10 @@ import sequelize from './utils/database';
 import routes from './routes/user-routes';
 import groupRouter from './routes/group-routes';
 import groupUsersRouter from './routes/group-users-routes';
-import { isOperationalError, logError, returnError } from './utils/hendleError/helpers';
-import BaseError from './utils/hendleError/baseError';
-import httpLogger from './utils/hendleError/httpLogger';
-import logger from './utils/hendleError/logger';
+import { isOperationalError, logError, returnError } from './utils/handleError/helpers';
+import HttpError from './utils/handleError/httpError';
+import httpLogger from './utils/handleError/httpLogger';
+import logger from './utils/handleError/logger';
 
 
 const app = express();
@@ -27,10 +27,10 @@ app.use(logError);
 app.use(returnError);
 
 process
-    .on('unhandledRejection', (error: BaseError) => {
+    .on('unhandledRejection', (error: HttpError) => {
         logError(error);
     })
-    .on('uncaughtException', (error: BaseError) => {
+    .on('uncaughtException', (error: HttpError) => {
         logError(error);
 
         if (!isOperationalError(error)) {

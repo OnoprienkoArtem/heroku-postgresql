@@ -1,8 +1,8 @@
-import BaseError from './baseError';
+import HttpError from './httpError';
 import { HttpStatusCode } from './httpStatusCode';
 
 
-export default class Api404Error extends BaseError {
+export default class Api404Error extends HttpError {
     constructor(
         errorMessage: string,
         statusCode = HttpStatusCode.NOT_FOUND,

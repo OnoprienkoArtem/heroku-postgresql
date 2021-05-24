@@ -1,16 +1,16 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 import UserService from '../services/User.service';
-import Api404Error from '../utils/hendleError/hendleError';
+import Api404Error from '../utils/handleError/handleError';
 import { UserType } from '../types/user';
-import { logError } from '../utils/hendleError/helpers';
+import { logError } from '../utils/handleError/helpers';
 
 
 export default class UserController {
     constructor(public readonly userService: UserService) {
     }
 
-    public getAutoSuggestUsers = async (req: Request, res: Response, next: (arg: any) => void): Promise<void> => {
+    public getAutoSuggestUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const users: Array<UserType> = await this.userService.getUsers(req.query.login, req.query.limit);
 
@@ -24,7 +24,7 @@ export default class UserController {
         }
     }
 
-    public getUserById = async (req: Request, res: Response, next: (arg: any) => void): Promise<void> => {
+    public getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             await this.handleErrorNotFoundByUserId(req.params.id as unknown as number);
 
@@ -36,14 +36,13 @@ export default class UserController {
 
     public createUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            const user: UserType = await this.userService.createUser(req.query);
-            res.status(201).send(await this.userService.createUser(user));
+            res.status(201).send(await this.userService.createUser(req.query));
         } catch (error) {
             logError(error);
         }
     }
 
-    public updateUserById = async (req: Request, res: Response, next: (arg: any) => void): Promise<void> => {
+    public updateUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             await this.handleErrorNotFoundByUserId(req.params.id as unknown as number);
 
@@ -53,13 +52,12 @@ export default class UserController {
         }
     }
 
-    public removeUserById = async (req: Request, res: Response, next: (arg: any) => void): Promise<void> => {
+    public removeUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             await this.handleErrorNotFoundByUserId(req.params.id as unknown as number);
 
-            res
-                .json({ message: 'User has been deleted.' })
-                .send(await this.userService.removeUserById(req.params.id));
+            await this.userService.removeUserById(req.params.id);
+            res.send({ message: 'User has been deleted.' });
         } catch (error) {
             return next(error);
         }
