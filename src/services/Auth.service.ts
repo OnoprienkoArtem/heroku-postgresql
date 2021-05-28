@@ -1,7 +1,7 @@
 
 
 export default class AuthService {
-    public async login(login: string, password: string): Promise<any> {
+    public async login(username: string, password: string): Promise<any> {
 
     }
 }
