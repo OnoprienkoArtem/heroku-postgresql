@@ -11,6 +11,5 @@
         "rejectUnauthorized": false
       }
     }
-  },
-  "jwt": "jwt-secret"
+  }
 }
