@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import passport from 'passport';
 
 import routes from './routes/user-routes';
 import groupRouter from './routes/group-routes';
@@ -11,10 +12,14 @@ import sequelize from './utils/database';
 import HttpError from './utils/handleError/httpError';
 import httpLogger from './utils/handleError/httpLogger';
 import logger from './utils/handleError/logger';
+import jwtPassport from './middleware/passport';
 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(passport.initialize());
+jwtPassport(passport);
 
 app.use(httpLogger);
 
