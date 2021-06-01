@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+
 import AuthService from '../services/Auth.service';
-import config from '../../config/config.json';
-import Api404Error from '../utils/handleError/handleError';
-import dotenv from 'dotenv';
+
 
 export default class AuthController {
     constructor(public readonly authService: AuthService) {
@@ -26,7 +25,6 @@ export default class AuthController {
             } else {
                 res.status(401).json({ message: 'Passwords mismatch. Try again.' });
             }
-
 
         } catch (error) {
             return next(error);
