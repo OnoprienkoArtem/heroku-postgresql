@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import GroupService from '../services/Group.service';
-import Api404Error from '../utils/handleError/handleError';
+import {Api404Error} from '../utils/handleError/handleError';
 import { logError } from '../utils/handleError/helpers';
 
 

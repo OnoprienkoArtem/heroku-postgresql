@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import UserService from '../services/User.service';
-import Api404Error from '../utils/handleError/handleError';
+import {Api404Error} from '../utils/handleError/handleError';
 import { UserType } from '../types/user';
 import { logError } from '../utils/handleError/helpers';
 
