@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
+import cors from 'cors';
 
 import routes from './routes/user-routes';
 import groupRouter from './routes/group-routes';
@@ -25,6 +26,7 @@ app.use(httpLogger);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use('/users', routes);
 app.use('/groups', groupRouter);
