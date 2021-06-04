@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 import AuthService from '../services/Auth.service';
+import { Api401Error, Api404Error } from '../utils/handleError/handleError';
 
 
 export default class AuthController {
@@ -10,20 +12,23 @@ export default class AuthController {
 
     public login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            const candidate = await this.authService.getCandidate(req.body.username, req.body.password);
-            // throw new Api404Error(`User with not found.`);
+            const candidate = await this.authService.getCandidate(req.body.username);
 
             if (candidate) {
-                const token = jwt.sign({
-                    login: candidate?.get('login'),
-                    id: candidate?.get('id'),
-                }, `${ process.env.TOKEN_SECRET }`, { expiresIn: 3600 });
+                if (candidate.password === req.body.password) {
+                    const token = jwt.sign({
+                        login: candidate?.get('login'),
+                        id: candidate?.get('id'),
+                    }, `${ process.env.TOKEN_SECRET }`, { expiresIn: 3600 });
 
-                res.status(200).json({
-                    token: `Bearer ${ token }`
-                });
+                    res.status(200).json({
+                        token: `Bearer ${ token }`
+                    });
+                } else {
+                    throw new Api401Error('Passwords mismatch. Try again.');
+                }
             } else {
-                res.status(401).json({ message: 'Passwords mismatch. Try again.' });
+                throw new Api404Error(`User with not found.`);
             }
 
         } catch (error) {
