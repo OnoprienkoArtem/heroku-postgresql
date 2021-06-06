@@ -1,5 +1,4 @@
 import express from 'express';
-import passport from 'passport';
 import authenticate from '../middleware/authenticate';
 
 import { schema } from '../validation/validationSchema';

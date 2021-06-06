@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import UserService from '../services/User.service';
-import {Api404Error} from '../utils/handleError/handleError';
+import { Api404Error } from '../utils/handleError/handleError';
 import { UserType } from '../types/user';
 import { logError } from '../utils/handleError/helpers';
 
@@ -22,7 +22,7 @@ export default class UserController {
         } catch (error) {
             return next(error);
         }
-    }
+    };
 
     public getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
@@ -32,7 +32,7 @@ export default class UserController {
         } catch (error) {
             return next(error);
         }
-    }
+    };
 
     public createUser = async (req: Request, res: Response): Promise<void> => {
         try {
@@ -40,7 +40,7 @@ export default class UserController {
         } catch (error) {
             logError(error);
         }
-    }
+    };
 
     public updateUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
@@ -50,24 +50,24 @@ export default class UserController {
         } catch (error) {
             return next(error);
         }
-    }
+    };
 
     public removeUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             await this.handleErrorNotFoundByUserId(req.params.id as unknown as number);
-
             await this.userService.removeUserById(req.params.id);
+
             res.send({ message: 'User has been deleted.' });
         } catch (error) {
             return next(error);
         }
-    }
+    };
 
     private handleErrorNotFoundByUserId = async (id: number): Promise<void> => {
         const user: UserType = await this.userService.getUserById(id);
 
         if (user === null) {
-            throw new Api404Error(`User with id: ${id} not found.`);
+            throw new Api404Error(`User with id: ${ id } not found.`);
         }
-    }
+    };
 }

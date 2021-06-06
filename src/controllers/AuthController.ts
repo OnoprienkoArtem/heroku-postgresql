@@ -17,7 +17,7 @@ export default class AuthController {
                 if (candidate.password === req.body.password) {
                     const token = jwt.sign({
                         login: candidate?.get('login'),
-                        id: candidate?.get('id'),
+                        id: candidate?.get('id')
                     }, `${ process.env.TOKEN_SECRET }`, { expiresIn: 3600 });
 
                     res.status(200).json({
@@ -27,9 +27,8 @@ export default class AuthController {
                     throw new Api401Error('Passwords mismatch. Try again.');
                 }
             } else {
-                throw new Api404Error(`User with not found.`);
+                throw new Api404Error(`User with username ${ req.body.username } not found.`);
             }
-
         } catch (error) {
             return next(error);
         }
