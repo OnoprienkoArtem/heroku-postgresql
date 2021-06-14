@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
 import cors from 'cors';
+import authenticate from './middleware/authenticate';
 
 import routes from './routes/user-routes';
 import groupRouter from './routes/group-routes';
@@ -19,7 +20,6 @@ import jwtPassport from './middleware/passport';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(passport.initialize());
 jwtPassport(passport);
 
 app.use(httpLogger);
@@ -28,9 +28,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use('/users', routes);
-app.use('/groups', groupRouter);
-app.use('/group-users', groupUsersRouter);
+app.use('/users', authenticate, routes);
+app.use('/groups', authenticate, groupRouter);
+app.use('/group-users', authenticate, groupUsersRouter);
 app.use('/login', authRouter);
 
 app.use(logError);

@@ -13,22 +13,23 @@ export default class AuthController {
         try {
             const candidate = await this.authService.getCandidate(req.body.username);
 
-            if (candidate) {
-                if (candidate.password === req.body.password) {
-                    const token = jwt.sign({
-                        login: candidate?.get('login'),
-                        id: candidate?.get('id')
-                    }, `${ process.env.TOKEN_SECRET }`, { expiresIn: 3600 });
-
-                    res.status(200).json({
-                        token: `Bearer ${ token }`
-                    });
-                } else {
-                    throw new Api401Error('Passwords mismatch. Try again.');
-                }
-            } else {
+            if (!candidate) {
                 throw new Api404Error(`User with username ${ req.body.username } not found.`);
             }
+
+            if (candidate.password === req.body.password) {
+                const token = jwt.sign({
+                    login: candidate?.get('login'),
+                    id: candidate?.get('id')
+                }, `${ process.env.TOKEN_SECRET }`, { expiresIn: 3600 });
+
+                res.status(200).json({
+                    token: `Bearer ${ token }`
+                });
+            } else {
+                throw new Api401Error('Passwords mismatch. Try again.');
+            }
+
         } catch (error) {
             return next(error);
         }

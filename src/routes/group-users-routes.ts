@@ -8,6 +8,6 @@ import GroupUsersService from '../services/GroupUsers.service';
 const groupUsersRouter = express.Router();
 const groupUsersController = new GroupUsersController(new GroupUsersService());
 
-groupUsersRouter.post('/', authenticate, groupUsersController.addUsersToGroup);
+groupUsersRouter.post('/', groupUsersController.addUsersToGroup);
 
 export default groupUsersRouter;

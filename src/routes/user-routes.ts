@@ -11,10 +11,10 @@ import UserService from '../services/User.service';
 const router = express.Router();
 const userController = new UserController(new UserService());
 
-router.get('/', authenticate, userController.getAutoSuggestUsers);
-router.get('/:id', authenticate, userController.getUserById);
-router.post('/', authenticate, userController.createUser);
-router.put('/:id', authenticate, validateSchema(schema), userController.updateUserById);
-router.delete('/:id', authenticate, userController.removeUserById);
+router.get('/', userController.getAutoSuggestUsers);
+router.get('/:id', userController.getUserById);
+router.post('/', userController.createUser);
+router.put('/:id', validateSchema(schema), userController.updateUserById);
+router.delete('/:id', userController.removeUserById);
 
 export default router;
