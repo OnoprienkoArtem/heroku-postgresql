@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 
 import GroupService from '../services/Group.service';
-import Api404Error from '../utils/handleError/handleError';
+import { Api404Error } from '../utils/handleError/handleError';
 import { logError } from '../utils/handleError/helpers';
 
 
 export default class GroupController {
-    constructor(public readonly groupService: GroupService) {}
+    constructor(public readonly groupService: GroupService) {
+    }
 
     public getGroupById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
@@ -16,7 +17,7 @@ export default class GroupController {
         } catch (error) {
             return next(error);
         }
-    }
+    };
 
     public getAllGroups = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
@@ -28,9 +29,9 @@ export default class GroupController {
 
             res.send(groups);
         } catch (error) {
-            return  next(error);
+            return next(error);
         }
-    }
+    };
 
     public createNewGroup = async (req: Request, res: Response): Promise<void> => {
         try {
@@ -38,7 +39,7 @@ export default class GroupController {
         } catch (error) {
             logError(error);
         }
-    }
+    };
 
     public updateGroupById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
@@ -48,25 +49,24 @@ export default class GroupController {
         } catch (error) {
             return next(error);
         }
-    }
+    };
 
     public removeGroupById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             await this.handleErrorNotFoundByGroupId(req.params.id);
+            await this.groupService.removeGroupById(req.params.id);
 
-            res
-                .json({ message: 'Group has been deleted.' })
-                .send(await this.groupService.removeGroupById(req.params.id));
+            res.send({ message: 'Group has been deleted.' });
         } catch (error) {
             return next(error);
         }
-    }
+    };
 
     private handleErrorNotFoundByGroupId = async (id: string): Promise<void> => {
         const group = await this.groupService.getGroupById(id);
 
         if (group === null) {
-            throw new Api404Error(`Group with group id: ${id} not found.`);
+            throw new Api404Error(`Group with group id: ${ id } not found.`);
         }
-    }
+    };
 }

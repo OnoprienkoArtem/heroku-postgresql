@@ -12,7 +12,7 @@ const userController = new UserController(new UserService());
 
 router.get('/', userController.getAutoSuggestUsers);
 router.get('/:id', userController.getUserById);
-router.post('/', validateSchema(schema), userController.createUser);
+router.post('/', userController.createUser);
 router.put('/:id', validateSchema(schema), userController.updateUserById);
 router.delete('/:id', userController.removeUserById);
 
