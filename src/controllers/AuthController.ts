@@ -29,7 +29,6 @@ export default class AuthController {
             } else {
                 throw new Api401Error('Passwords mismatch. Try again.');
             }
-
         } catch (error) {
             return next(error);
         }

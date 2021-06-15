@@ -1,7 +1,6 @@
 import express from 'express';
 
 import GroupController from '../controllers/GroupController';
-import authenticate from '../middleware/authenticate';
 import GroupService from '../services/Group.service';
 
 
