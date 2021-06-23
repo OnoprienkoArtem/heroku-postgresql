@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response, Send } from 'express';
-import UserService from '../services/UserServiceIndex';
-import { getAutoSuggestUsers } from './UserController';
+import UserService from '../services/User.service';
+import UserController from './UserController';
 
-jest.mock('../services/UserServiceIndex');
+// jest.mock('../services/UserServiceIndex');
 
 describe('UserController', (): void => {
     let req: Request;
@@ -28,10 +28,6 @@ describe('UserController', (): void => {
     });
 
     it('getAutoSuggestUsers', async () => {
-        // const reqMock = {} as Request;
-        // const resMock = {} as Response;
-        // const nextMock = jest.fn();
-        //
         // const requestMock = {
         //     id: 1,
         //     login: 'ee',
@@ -42,15 +38,29 @@ describe('UserController', (): void => {
 
         const mock = {
             login: 'ee',
+            limit: '2'
         };
 
-        jest.spyOn(UserService, 'getUsers').mockResolvedValueOnce(mock);
         req.query = mock;
 
-        await getAutoSuggestUsers(req, res, next);
+        class UserServiceMock {
+            getUsers = jest.fn();
+        }
+        const service = new UserServiceMock() as unknown as UserService;
 
-        // expect(UserService.getUsers).toBeCalledWith(mock);
-        // expect(UserService.getUsers).toBeCalledWith(mock);
+
+        // const getUsersStub = jest.fn().mockResolvedValue(serviceRecord);
+        // jest.mock('../services/User.service', () => class MockService {
+        //     getUsers = getUsersStub;
+        // })
+
+        const controller = new UserController(service);
+
+
+        await controller.getAutoSuggestUsers(req, res, next);
+
+        expect(service.getUsers).toBeCalledWith(mock.login, mock.limit);
+        // expect(UserService.getUsers).toBeCalled();
 
     });
 
