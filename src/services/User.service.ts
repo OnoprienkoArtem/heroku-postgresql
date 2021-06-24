@@ -19,7 +19,7 @@ export default class UserService {
                     [Op.like]: `%${login}%`
                 }
             },
-            // include: Group
+            include: Group
         });
     }
 
