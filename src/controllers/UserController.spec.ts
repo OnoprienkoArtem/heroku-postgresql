@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Send } from 'express';
 import UserService from '../services/User.service';
+import { logError } from '../utils/handleError/helpers';
 import UserController from './UserController';
-
 
 
 describe('UserController', (): void => {
@@ -34,6 +34,7 @@ describe('UserController', (): void => {
     beforeEach(() => {
         req = {
             params: {},
+            query: {},
         } as Request;
 
         res = {
@@ -61,14 +62,14 @@ describe('UserController', (): void => {
         });
 
         it('should send correct data', async () => {
-            service.getUsers = jest.fn().mockResolvedValue( [requestMock]);
+            service.getUsers = jest.fn().mockResolvedValue([ requestMock ]);
             await controller.getAutoSuggestUsers(req, res, next);
 
-            expect(res.send).toBeCalledWith([requestMock]);
+            expect(res.send).toBeCalledWith([ requestMock ]);
         });
 
         it('should throw 404 error if users not found', async () => {
-            service.getUsers = jest.fn().mockResolvedValue( []);
+            service.getUsers = jest.fn().mockResolvedValue([]);
             await controller.getAutoSuggestUsers(req, res, next);
 
             expect(next).toBeCalledWith(new Error('Not found.'));
@@ -103,14 +104,39 @@ describe('UserController', (): void => {
         });
     });
 
+    describe('createUser', (): void => {
+        it('should call createUser method with proper params', async () => {
+            req.query = mock;
+            await controller.createUser(req, res);
+
+            expect(service.createUser).toBeCalledWith(mock);
+        });
+
+        it('should return 201 status and send correct json', async () => {
+            service.createUser = jest.fn().mockResolvedValue(requestMock);
+            await controller.createUser(req, res);
+
+            expect(res.status).toBeCalledWith(201);
+            expect(res.send).toBeCalledWith(requestMock);
+        });
+    });
+
+    describe('updateUserById', (): void => {
+        it('should call updateUserById method with proper params', async () => {
+            const idMock = {
+                id: 1,
+            } as any;
 
 
-    it('createUser', async () => {
-        req.query = mock;
 
-        await controller.createUser(req, res);
 
-        expect(service.createUser).toBeCalledWith(mock);
+            req.params = idMock;
+
+            await controller.updateUserById(req, res, next);
+
+            expect(service.updateUserById).toBeCalledWith();
+        });
+
     });
 
 });
