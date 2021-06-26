@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response, Send } from 'express';
 import UserService from '../services/User.service';
-import { logError } from '../utils/handleError/helpers';
 import UserController from './UserController';
 
 
@@ -31,6 +30,7 @@ describe('UserController', (): void => {
         getUserById = jest.fn();
         createUser = jest.fn();
         updateUserById = jest.fn();
+        removeUserById = jest.fn();
     }
 
     const service = new UserServiceMock() as unknown as UserService;
@@ -141,7 +141,22 @@ describe('UserController', (): void => {
         });
     });
 
+    describe('removeUserById', (): void => {
+        it('should call getUserById method with proper params and send message', async () => {
+            service.getUserById = jest.fn().mockResolvedValue(1);
+            await controller.removeUserById(req, res, next);
 
+            expect(service.removeUserById).toBeCalledWith(idMock.id);
+            expect(res.send).toBeCalledWith({message: 'User has been deleted.'});
+        });
+
+        it('should throw 404 error if user not found', async () => {
+            service.getUserById = jest.fn().mockResolvedValue(null);
+            await controller.removeUserById(req, res, next);
+
+            expect(next).toBeCalledWith(new Error('Not found.'));
+        });
+    });
 
 });
 
