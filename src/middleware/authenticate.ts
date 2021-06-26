@@ -2,8 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
 import { Api401Error, Api403Error } from '../utils/handleError/handleError';
-
-
 const authenticate = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
 
