@@ -16,7 +16,7 @@ describe('UserController', (): void => {
         isDeleted: true,
     };
 
-    const mock = {
+    const queryMock = {
         login: 'testLogin',
         limit: '2'
     };
@@ -50,7 +50,7 @@ describe('UserController', (): void => {
 
         next = jest.fn() as NextFunction;
 
-        req.query = mock;
+        req.query = queryMock;
         req.params = idMock;
     });
 
@@ -62,7 +62,7 @@ describe('UserController', (): void => {
         it('should call getUsers method with proper params', async () => {
             await controller.getAutoSuggestUsers(req, res, next);
 
-            expect(service.getUsers).toBeCalledWith(mock.login, mock.limit);
+            expect(service.getUsers).toBeCalledWith(queryMock.login, queryMock.limit);
         });
 
         it('should send correct data', async () => {
@@ -106,7 +106,7 @@ describe('UserController', (): void => {
         it('should call createUser method with proper params', async () => {
             await controller.createUser(req, res);
 
-            expect(service.createUser).toBeCalledWith(mock);
+            expect(service.createUser).toBeCalledWith(queryMock);
         });
 
         it('should return 201 status and send correct json', async () => {
@@ -123,7 +123,7 @@ describe('UserController', (): void => {
             service.getUserById = jest.fn().mockResolvedValue(1);
             await controller.updateUserById(req, res, next);
 
-            expect(service.updateUserById).toBeCalledWith(mock, idMock.id);
+            expect(service.updateUserById).toBeCalledWith(queryMock, idMock.id);
         });
 
         it('should send correct data', async () => {
@@ -142,7 +142,7 @@ describe('UserController', (): void => {
     });
 
     describe('removeUserById', (): void => {
-        it('should call getUserById method with proper params and send message', async () => {
+        it('should call removeUserById method with proper params and send message', async () => {
             service.getUserById = jest.fn().mockResolvedValue(1);
             await controller.removeUserById(req, res, next);
 
