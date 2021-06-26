@@ -9,7 +9,7 @@ describe('UserController', (): void => {
     let res: Response;
     let next: NextFunction;
 
-    const requestMock = {
+    const userMock = {
         id: 1,
         login: 'ee',
         password: 'eee',
@@ -22,10 +22,15 @@ describe('UserController', (): void => {
         limit: '2'
     };
 
+    const idMock = {
+        id: 1,
+    } as any;
+
     class UserServiceMock {
         getUsers = jest.fn();
         getUserById = jest.fn();
         createUser = jest.fn();
+        updateUserById = jest.fn();
     }
 
     const service = new UserServiceMock() as unknown as UserService;
@@ -44,6 +49,9 @@ describe('UserController', (): void => {
         } as Response;
 
         next = jest.fn() as NextFunction;
+
+        req.query = mock;
+        req.params = idMock;
     });
 
     afterEach(() => {
@@ -51,10 +59,6 @@ describe('UserController', (): void => {
     });
 
     describe('getAutoSuggestUsers', (): void => {
-        beforeEach(() => {
-            req.query = mock;
-        });
-
         it('should call getUsers method with proper params', async () => {
             await controller.getAutoSuggestUsers(req, res, next);
 
@@ -62,10 +66,10 @@ describe('UserController', (): void => {
         });
 
         it('should send correct data', async () => {
-            service.getUsers = jest.fn().mockResolvedValue([ requestMock ]);
+            service.getUsers = jest.fn().mockResolvedValue([ userMock ]);
             await controller.getAutoSuggestUsers(req, res, next);
 
-            expect(res.send).toBeCalledWith([ requestMock ]);
+            expect(res.send).toBeCalledWith([ userMock ]);
         });
 
         it('should throw 404 error if users not found', async () => {
@@ -78,22 +82,16 @@ describe('UserController', (): void => {
 
     describe('getUserById', (): void => {
         it('should call getUserById method with proper params', async () => {
-            const idMock = {
-                id: 1,
-            } as any;
-
-            req.params = idMock;
-
             await controller.getUserById(req, res, next);
 
             expect(service.getUserById).toBeCalledWith(idMock.id);
         });
 
         it('should send json correct data', async () => {
-            service.getUserById = jest.fn().mockResolvedValue(requestMock);
+            service.getUserById = jest.fn().mockResolvedValue(userMock);
             await controller.getUserById(req, res, next);
 
-            expect(res.json).toBeCalledWith(requestMock);
+            expect(res.json).toBeCalledWith(userMock);
         });
 
         it('should throw 404 error if user not found', async () => {
@@ -106,38 +104,44 @@ describe('UserController', (): void => {
 
     describe('createUser', (): void => {
         it('should call createUser method with proper params', async () => {
-            req.query = mock;
             await controller.createUser(req, res);
 
             expect(service.createUser).toBeCalledWith(mock);
         });
 
         it('should return 201 status and send correct json', async () => {
-            service.createUser = jest.fn().mockResolvedValue(requestMock);
+            service.createUser = jest.fn().mockResolvedValue(userMock);
             await controller.createUser(req, res);
 
             expect(res.status).toBeCalledWith(201);
-            expect(res.send).toBeCalledWith(requestMock);
+            expect(res.send).toBeCalledWith(userMock);
         });
     });
 
     describe('updateUserById', (): void => {
         it('should call updateUserById method with proper params', async () => {
-            const idMock = {
-                id: 1,
-            } as any;
-
-
-
-
-            req.params = idMock;
-
+            service.getUserById = jest.fn().mockResolvedValue(1);
             await controller.updateUserById(req, res, next);
 
-            expect(service.updateUserById).toBeCalledWith();
+            expect(service.updateUserById).toBeCalledWith(mock, idMock.id);
         });
 
+        it('should send correct data', async () => {
+            service.updateUserById = jest.fn().mockResolvedValue(userMock);
+            await controller.updateUserById(req, res, next);
+
+            expect(res.send).toBeCalledWith(userMock);
+        });
+
+        it('should throw 404 error if user not found', async () => {
+            service.getUserById = jest.fn().mockResolvedValue(null);
+            await controller.updateUserById(req, res, next);
+
+            expect(next).toBeCalledWith(new Error('Not found.'));
+        });
     });
+
+
 
 });
 
