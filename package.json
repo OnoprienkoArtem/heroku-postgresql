@@ -14,11 +14,9 @@
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "undomigrate": "node_modules/.bin/sequelize db:migrate:undo:all"
   },
-  "husky": {
     "hooks": {
       "pre-commit": "npm run lint"
-    }
-  },
+    },
   "keywords": [],
   "author": "",
   "license": "ISC",
