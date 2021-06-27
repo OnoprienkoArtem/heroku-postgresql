@@ -16,7 +16,7 @@ describe('GroupController', (): void => {
 
     const bodyMock = {
         name: 'groupName',
-        permissions: ['READ', 'WRITE'],
+        permissions: ['READ', 'WRITE']
     };
 
     const paramIdMock = {
