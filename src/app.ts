@@ -15,12 +15,8 @@ import httpLogger from './utils/handleError/httpLogger';
 import logger from './utils/handleError/logger';
 
 
-
-
-
 const app = express();
 const PORT = process.env.PORT || 3000;
-
 
 app.use(httpLogger);
 

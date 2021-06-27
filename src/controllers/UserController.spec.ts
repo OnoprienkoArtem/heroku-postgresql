@@ -13,7 +13,7 @@ describe('UserController', (): void => {
         login: 'ee',
         password: 'eee',
         age: 22,
-        isDeleted: true,
+        isDeleted: true
     };
 
     const queryMock = {
@@ -22,7 +22,7 @@ describe('UserController', (): void => {
     };
 
     const idMock = {
-        id: 1,
+        id: 1
     } as any;
 
     class UserServiceMock {
@@ -39,7 +39,7 @@ describe('UserController', (): void => {
     beforeEach(() => {
         req = {
             params: {},
-            query: {},
+            query: {}
         } as Request;
 
         res = {
@@ -66,10 +66,10 @@ describe('UserController', (): void => {
         });
 
         it('should send correct data', async () => {
-            service.getUsers = jest.fn().mockResolvedValue([ userMock ]);
+            service.getUsers = jest.fn().mockResolvedValue([userMock]);
             await controller.getAutoSuggestUsers(req, res, next);
 
-            expect(res.send).toBeCalledWith([ userMock ]);
+            expect(res.send).toBeCalledWith([userMock]);
         });
 
         it('should throw 404 error if users not found', async () => {
@@ -147,7 +147,7 @@ describe('UserController', (): void => {
             await controller.removeUserById(req, res, next);
 
             expect(service.removeUserById).toBeCalledWith(idMock.id);
-            expect(res.send).toBeCalledWith({message: 'User has been deleted.'});
+            expect(res.send).toBeCalledWith({ message: 'User has been deleted.' });
         });
 
         it('should throw 404 error if user not found', async () => {
@@ -157,7 +157,4 @@ describe('UserController', (): void => {
             expect(next).toBeCalledWith(new Error('Not found.'));
         });
     });
-
 });
-
-

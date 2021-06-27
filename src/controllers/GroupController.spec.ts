@@ -16,11 +16,11 @@ describe('GroupController', (): void => {
 
     const bodyMock = {
         name: 'groupName',
-        permissions: ['READ', 'WRITE'],
+        permissions: ['READ', 'WRITE']
     };
 
     const paramIdMock = {
-        id: 1,
+        id: 1
     } as any;
 
     class GroupServiceMock {
@@ -38,7 +38,7 @@ describe('GroupController', (): void => {
         req = {
             params: {},
             query: {},
-            body: {},
+            body: {}
         } as Request;
 
         res = {
@@ -88,10 +88,10 @@ describe('GroupController', (): void => {
         });
 
         it('should send correct data', async () => {
-            service.getAllGroups = jest.fn().mockResolvedValue([ groupMock ]);
+            service.getAllGroups = jest.fn().mockResolvedValue([groupMock]);
             await controller.getAllGroups(req, res, next);
 
-            expect(res.send).toBeCalledWith([ groupMock ]);
+            expect(res.send).toBeCalledWith([groupMock]);
         });
 
         it('should throw 404 error if users not found', async () => {
@@ -147,7 +147,7 @@ describe('GroupController', (): void => {
             await controller.removeGroupById(req, res, next);
 
             expect(service.removeGroupById).toBeCalledWith(paramIdMock.id);
-            expect(res.send).toBeCalledWith({message: 'Group has been deleted.'});
+            expect(res.send).toBeCalledWith({ message: 'Group has been deleted.' });
         });
 
         it('should throw 404 error if user not found', async () => {
@@ -157,7 +157,4 @@ describe('GroupController', (): void => {
             expect(next).toBeCalledWith(new Error('Not found.'));
         });
     });
-
 });
-
-
