@@ -14,8 +14,10 @@
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "undomigrate": "node_modules/.bin/sequelize db:migrate:undo:all"
   },
-  "hooks": {
-    "pre-commit": "npm run lint"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint"
+    }
   },
   "keywords": [],
   "author": "",
