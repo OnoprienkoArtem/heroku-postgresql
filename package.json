@@ -12,11 +12,9 @@
     "seed": "node_modules/.bin/sequelize db:seed:all\n",
     "undoseed": "node_modules/.bin/sequelize db:seed:undo:all",
     "migrate": "node_modules/.bin/sequelize db:migrate",
-    "undomigrate": "node_modules/.bin/sequelize db:migrate:undo:all"
+    "undomigrate": "node_modules/.bin/sequelize db:migrate:undo:all",
+    "prepare": "husky install"
   },
-    "hooks": {
-      "pre-commit": "npm run lint"
-    },
   "keywords": [],
   "author": "",
   "license": "ISC",
