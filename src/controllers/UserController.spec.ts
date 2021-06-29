@@ -59,16 +59,11 @@ describe('UserController', (): void => {
     });
 
     describe('getAutoSuggestUsers', (): void => {
-        it('should call getUsers method with proper params', async () => {
-            await controller.getAutoSuggestUsers(req, res, next);
-
-            expect(service.getUsers).toBeCalledWith(queryMock.login, queryMock.limit);
-        });
-
-        it('should send correct data', async () => {
+        it('should call getUsers method with proper params and send correct data', async () => {
             service.getUsers = jest.fn().mockResolvedValue([userMock]);
             await controller.getAutoSuggestUsers(req, res, next);
 
+            expect(service.getUsers).toBeCalledWith(queryMock.login, queryMock.limit);
             expect(res.send).toBeCalledWith([userMock]);
         });
 
@@ -81,16 +76,11 @@ describe('UserController', (): void => {
     });
 
     describe('getUserById', (): void => {
-        it('should call getUserById method with proper params', async () => {
-            await controller.getUserById(req, res, next);
-
-            expect(service.getUserById).toBeCalledWith(idMock.id);
-        });
-
-        it('should send json correct data', async () => {
+        it('should call getUserById method with proper params and send correct data', async () => {
             service.getUserById = jest.fn().mockResolvedValue(userMock);
             await controller.getUserById(req, res, next);
 
+            expect(service.getUserById).toBeCalledWith(idMock.id);
             expect(res.json).toBeCalledWith(userMock);
         });
 
@@ -104,32 +94,22 @@ describe('UserController', (): void => {
 
     describe('createUser', (): void => {
         it('should call createUser method with proper params', async () => {
-            await controller.createUser(req, res);
-
-            expect(service.createUser).toBeCalledWith(queryMock);
-        });
-
-        it('should return 201 status and send correct json', async () => {
             service.createUser = jest.fn().mockResolvedValue(userMock);
             await controller.createUser(req, res);
 
+            expect(service.createUser).toBeCalledWith(queryMock);
             expect(res.status).toBeCalledWith(201);
             expect(res.send).toBeCalledWith(userMock);
         });
     });
 
     describe('updateUserById', (): void => {
-        it('should call updateUserById method with proper params', async () => {
+        it('should call updateUserById method with proper params and send correct data', async () => {
             service.getUserById = jest.fn().mockResolvedValue(1);
-            await controller.updateUserById(req, res, next);
-
-            expect(service.updateUserById).toBeCalledWith(queryMock, idMock.id);
-        });
-
-        it('should send correct data', async () => {
             service.updateUserById = jest.fn().mockResolvedValue(userMock);
             await controller.updateUserById(req, res, next);
 
+            expect(service.updateUserById).toBeCalledWith(queryMock, idMock.id);
             expect(res.send).toBeCalledWith(userMock);
         });
 

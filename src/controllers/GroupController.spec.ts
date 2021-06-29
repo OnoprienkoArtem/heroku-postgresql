@@ -58,17 +58,11 @@ describe('GroupController', (): void => {
     });
 
     describe('getGroupById', (): void => {
-        it('should call getGroupById method with proper params', async () => {
+        it('should call getGroupById method with proper params and send correct data', async () => {
             service.getGroupById = jest.fn().mockResolvedValue(groupMock);
             await controller.getGroupById(req, res, next);
 
             expect(service.getGroupById).toBeCalledWith(paramIdMock.id);
-        });
-
-        it('should send json correct data', async () => {
-            service.getGroupById = jest.fn().mockResolvedValue(groupMock);
-            await controller.getGroupById(req, res, next);
-
             expect(res.send).toBeCalledWith(groupMock);
         });
 
@@ -81,16 +75,11 @@ describe('GroupController', (): void => {
     });
 
     describe('getAllGroups', (): void => {
-        it('should call getAllGroups', async () => {
-            await controller.getAllGroups(req, res, next);
-
-            expect(service.getAllGroups).toBeCalled();
-        });
-
-        it('should send correct data', async () => {
+        it('should call getAllGroups and send correct data', async () => {
             service.getAllGroups = jest.fn().mockResolvedValue([groupMock]);
             await controller.getAllGroups(req, res, next);
 
+            expect(service.getAllGroups).toBeCalled();
             expect(res.send).toBeCalledWith([groupMock]);
         });
 
@@ -103,33 +92,23 @@ describe('GroupController', (): void => {
     });
 
     describe('createNewGroup', (): void => {
-        it('should call createNewGroup method with proper params', async () => {
-            await controller.createNewGroup(req, res);
-
-            expect(service.createNewGroup).toBeCalledWith(bodyMock.name, bodyMock.permissions);
-        });
-
-        it('should return 201 status and send correct json', async () => {
+        it('should call createNewGroup method with proper params and send correct data', async () => {
             service.createNewGroup = jest.fn().mockResolvedValue(groupMock);
             await controller.createNewGroup(req, res);
 
+            expect(service.createNewGroup).toBeCalledWith(bodyMock.name, bodyMock.permissions);
             expect(res.status).toBeCalledWith(201);
             expect(res.send).toBeCalledWith(groupMock);
         });
     });
 
     describe('updateGroupById', (): void => {
-        it('should call updateGroupById method with proper params', async () => {
+        it('should call updateGroupById method with proper params and send correct data', async () => {
             service.getGroupById = jest.fn().mockResolvedValue(1);
-            await controller.updateGroupById(req, res, next);
-
-            expect(service.updateGroupById).toBeCalledWith(paramIdMock.id, bodyMock.name, bodyMock.permissions);
-        });
-
-        it('should send correct data', async () => {
             service.updateGroupById = jest.fn().mockResolvedValue(1);
             await controller.updateGroupById(req, res, next);
 
+            expect(service.updateGroupById).toBeCalledWith(paramIdMock.id, bodyMock.name, bodyMock.permissions);
             expect(res.send).toBeCalledWith(1);
         });
 
