@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import UserService from '../services/User.service';
-import { Api404Error } from '../utils/handleError/handleError';
 import { UserType } from '../types/user';
+import { Api404Error } from '../utils/handleError/handleError';
 import { logError } from '../utils/handleError/helpers';
 
 

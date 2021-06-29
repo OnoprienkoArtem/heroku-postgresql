@@ -8,6 +8,7 @@ import UserService from '../services/User.service';
 
 
 const router = express.Router();
+
 const userController = new UserController(new UserService());
 
 router.get('/', userController.getAutoSuggestUsers);

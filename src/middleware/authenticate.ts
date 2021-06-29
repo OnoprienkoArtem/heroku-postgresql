@@ -1,8 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
 import { Api401Error, Api403Error } from '../utils/handleError/handleError';
 
+dotenv.config();
 
 const authenticate = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
